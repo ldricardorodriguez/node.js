@@ -9,7 +9,7 @@
 
 var locationObj = window.location;
 
-// funcion para generar guids rápidos (no cumplen la especificación)
+// funcion para generar guids rï¿½pidos (no cumplen la especificaciï¿½n)
 function generateQuickGuid() {
     return Math.random().toString(36).substring(2, 15) +
         Math.random().toString(36).substring(2, 15);
@@ -32,12 +32,12 @@ window.onload = function()
 		id = generateQuickGuid();
 	}
 	
-	//se envía al servidor que el cliente está arriba...
+	//se envï¿½a al servidor que el cliente estï¿½ arriba...
 	websocket.emit("clientRunning", id);
 	// y que requiere contenido por primera vez.
 	websocket.emit("requestContent", id);	
 	
-	//se recibe desde el servidor y genera dinámicamente la nueva lista de imágines que irán en el carrusel
+	//se recibe desde el servidor y genera dinï¿½micamente la nueva lista de imï¿½gines que irï¿½n en el carrusel
 	websocket.on("sendEvent", function(data)
     {
 		//se limpia la lista de imagenes del carrusel
@@ -52,7 +52,7 @@ window.onload = function()
 		}				
     });	
 	
-	//se recibe la notificación desde el servidor de que hubo cambios en el directorio de imágenes...
+	//se recibe la notificaciï¿½n desde el servidor de que hubo cambios en el directorio de imï¿½genes...
 	websocket.on("notification", function(data)
     {
 		//y al recibirla se le solicita a este el contenido.
@@ -60,7 +60,7 @@ window.onload = function()
     });
 };
 
-//inicia el código del carrusel, extraído desde:
+//inicia el cï¿½digo del carrusel, extraï¿½do desde:
 //http://web.enavu.com/tutorials/making-an-infinite-jquery-carousel/
   $(document).ready(function() {
         
@@ -215,11 +215,11 @@ cursor: hand;
 </head>
 <body>
   <div id='carousel_container'>
-  <div id='left_scroll'><a href='javascript:slide("left");'><img src='.img/left.png' /></a></div>
+  <div id='left_scroll'><a href='javascript:slide("left");'><img src='./img/left.png' /></a></div>
     <div id='carousel_inner'>
         <ul id='carousel_ul'></ul>
     </div>
-  <div id='right_scroll'><a href='javascript:slide("right");'><img src='.img/right.png' /></a></div>
+  <div id='right_scroll'><a href='javascript:slide("right");'><img src='./img/right.png' /></a></div>
   <input type='hidden' id='hidden_auto_slide_seconds' value=0 />
   </div>
 </body>
