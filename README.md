@@ -10,8 +10,11 @@ Cómo ejecutar:
 
 1. Descargar e instalar node.js (http://nodejs.org/).
 2. Desde Node.js command prompt, ubicarse en el directorio donde se encuentre el proyecto.
-3. Instalar socket.io: 
+3a. Instalar socket.io: 
 	npm install socket.io
+3b. Instalar GraphicsMagick (http://www.graphicsmagick.org/index.html)
+3c. Instalar gm:
+	npm install gm
 4. Ejecutar el servidor http:
 	node httpserver.js (alternativamente node httpserver).
 5. En una nueva ventana de Node.js command prompt, ejecutar el servidor de websocket:
