@@ -49,7 +49,7 @@ server.sockets.on("connection", function(message)
 				var stats = fs.statSync(currentFile);
 				if (stats.isFile()) { //Se comprueba que sean archivos, así no se envía un url en caso de que sea un directorio.
 					console.log(currentFile);
-					params.push({id: data, url: encodeURI('http://192.168.150.52:8125'+fullpath.substring(1)+'/'+files[i])});
+					params.push({id: data, url: encodeURI(fullpath.substring(1)+'/'+files[i])});
 				}
 			}
 			message.emit('sendEvent', params); //por último se envía el json al cliente con la lista de imágenes.
