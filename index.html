@@ -3,13 +3,20 @@
 <head>
 <title>Demo node.js - Carrusel</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script src="http://localhost:5000/socket.io/socket.io.js"></script> <!--apunta al servidor de node.js -->
-<!--<script src="http://192.168.150.52:5000/socket.io/socket.io.js"></script> <!--apunta al servidor de node.js -->
+
 <script type="text/javascript">
 
-var locationObj = window.location;
+//Obtiene el js de socket.io con la ip y el puerto del servidor de websocket... esto habria que mejorarlo.
+var headID = document.getElementsByTagName('head')[0];         
+var newScript = document.createElement('script');
+newScript.type = 'text/javascript';
+newScript.src =  window.location.protocol+'//'+window.location.hostname+':'+'5000'+'/socket.io/socket.io.js';
+newScript.onload = scriptLoaded;
+headID.appendChild(newScript);
 
-// funcion para generar guids r�pidos (no cumplen la especificaci�n)
+
+
+// funcion para generar guids rapidos (no cumplen la especificacion)
 function generateQuickGuid() {
     return Math.random().toString(36).substring(2, 15) +
         Math.random().toString(36).substring(2, 15);
@@ -20,47 +27,43 @@ function loadPageVar (sVar) {
   return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(sVar).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
 }
 
-//se conecta contra el socket abierto por node.js del lado del servidor.
-var websocket = io.connect("http://localhost:5000/");
-//var websocket = io.connect("http://192.168.150.52:5000/");
-
-window.onload = function()
-{
-	//se obtiene el id desde la url.
-	var id = loadPageVar("id"); 
-	if (!id) {
-		id = generateQuickGuid();
-	}
-	
-	//se env�a al servidor que el cliente est� arriba...
-	websocket.emit("clientRunning", id);
-	// y que requiere contenido por primera vez.
-	websocket.emit("requestContent", id);	
-	
-	//se recibe desde el servidor y genera din�micamente la nueva lista de im�gines que ir�n en el carrusel
-	websocket.on("sendEvent", function(data)
-    {
-		//se limpia la lista de imagenes del carrusel
-		var div = document.getElementById('carousel_ul');
-		while(div.firstChild){
-			div.removeChild(div.firstChild);
+//se conecta contra el socket abierto por node.js del lado del servidor siempre y cuando haya cargado socket.io.js desde el servidor.
+function scriptLoaded(){
+	var websocket = io.connect(window.location.protocol+'//'+window.location.hostname+':'+'5000')
+	window.onload = function() {
+		//se obtiene el id desde la url.
+		var id = loadPageVar("id"); 
+		if (!id) {
+			id = generateQuickGuid();
 		}
-        var chat = document.getElementById('carousel_ul');
-			
-		for (var i = 0; i < data.length; i++) {
-			$('#carousel_ul').append('<li><a href='+'#'+'><img src='+data[i].url+' width='+200+' height='+110+'/></a></li>');
-		}				
-    });	
-	
-	//se recibe la notificaci�n desde el servidor de que hubo cambios en el directorio de im�genes...
-	websocket.on("notification", function(data)
-    {
-		//y al recibirla se le solicita a este el contenido.
-		websocket.emit("requestContent", id);		
-    });
-};
-
-//inicia el c�digo del carrusel, extra�do desde:
+		
+		//se envia al servidor que el cliente esta arriba...
+		websocket.emit("clientRunning", id);
+		// y que requiere contenido por primera vez.
+		websocket.emit("requestContent", id);	
+		
+		//se recibe desde el servidor y genera dinamicamente la nueva lista de imagines que iran en el carrusel
+		websocket.on("sendEvent", function(data){
+			//se limpia la lista de imagenes del carrusel
+			var div = document.getElementById('carousel_ul');
+			while(div.firstChild){
+				div.removeChild(div.firstChild);
+			}
+			var chat = document.getElementById('carousel_ul');
+				
+			for (var i = 0; i < data.length; i++) {
+				$('#carousel_ul').append('<li><a href='+'#'+'><img src='+data[i].url+' width='+200+' height='+110+'/></a></li>');
+			}				
+		});	
+		
+		//se recibe la notificacion desde el servidor de que hubo cambios en el directorio de imagenes...
+		websocket.on("notification", function(data){
+			//y al recibirla se le solicita a este el contenido.
+			websocket.emit("requestContent", id);		
+		});
+	};
+}
+//inicia el codigo del carrusel, extraido desde:
 //http://web.enavu.com/tutorials/making-an-infinite-jquery-carousel/
   $(document).ready(function() {
         
@@ -155,7 +158,7 @@ function slide(where){
                 $('#carousel_ul').css({'left' : '-210px'});
             });
 }
-  
+
 </script>
 <style type="text/css">
 
