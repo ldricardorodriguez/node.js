@@ -17,17 +17,17 @@ var server = http.createServer(function (request, response) {
     //para que interprete los tipos de contenido dependiendo de la extension del archivo que se pide por url
 	var extname = path.extname(filePath);
     var contentType = 'text/html';
-    switch (extname) {
-        case '.jpg':
+    switch (extname.toUpperCase()) {
+        case '.jpg'.toUpperCase():
             contentType = 'image/jpg';
             break;
-        case '.css':
+        case '.css'.toUpperCase():
             contentType = 'text/css';
             break;
-		case '.js':
+		case '.js'.toUpperCase():
 			contentType = 'text/javascript';
 			break;
-		case '.png':
+		case '.png'.toUpperCase():
 			contentType = 'image/png';
 			break;
     }
