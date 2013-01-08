@@ -1,7 +1,7 @@
 var http = require('http');
 var fs = require('fs');
 var path = require('path');
-var url = require('url') ;
+var url = require('url');
  
 var server = http.createServer(function (request, response) {
  
