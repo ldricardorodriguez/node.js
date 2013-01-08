@@ -41,20 +41,22 @@ server.sockets.on("connection", function(message)
 	message.on('requestContent', function(data){
 		try{
 		fs.readdir(fullpath, function (err, files) { //buscamos todos los archivos en el directorio...
-			if (err) throw err;				
+			//if (err) throw err;				
 			var params = new Array();
 			
 			for (var i in files) {
 				var currentFile = fullpath + '/' + files[i];
 				
 				var gm = require('gm');
-				gm(currentFile)
-				.resize(200, 110)
-				.write(currentFile, function (err) {
-				  if (!err) console.log(' hooray! ');
-				  if (err) throw err;
-				});
-				
+				var extname = ruta.extname(files[i]).toUpperCase();
+				if (extname == '.JPG' || extname == '.PNG' || extname == '.GIF'){
+					gm(currentFile)
+					.resize(200, 110)
+					.write(currentFile, function (err) {
+					  if (!err) console.log(' hooray! ');
+					  if (err) throw err;
+					});
+				}
 				var stats = fs.statSync(currentFile);
 				if (stats.isFile()) { //Se comprueba que sean archivos, así no se envía un url en caso de que sea un directorio.
 					console.log(currentFile);
