@@ -15,10 +15,8 @@ Cómo ejecutar:
 3b. Instalar GraphicsMagick (http://www.graphicsmagick.org/index.html)
 3c. Instalar gm:
 	npm install gm
-4. Ejecutar el servidor http:
-	node httpserver.js (alternativamente node httpserver).
-5. En una nueva ventana de Node.js command prompt, ejecutar el servidor de websocket:
-	node webserversocket.js (alternativamente node webserversocket).
+4. Ejecutar el servidor unificado:
+	node server.js (alternativamente node server).
 6. Abrir el navegador web y apuntar a la dirección: http://[direccion ip del servidor http]:8125
 6a. Dentro de /img pueden crearse tantos directorios como se quieran y que estos contengan imágenes, las cuales se verán en el carrusel, siempre que
 	en el query del url el parámetro 'id' corresponda con el nombre del subdirectorio.
