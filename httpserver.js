@@ -18,23 +18,25 @@ var server = http.createServer(function (request, response) {
 	var extname = path.extname(filePath);
     var contentType = 'text/html';
     switch (extname.toUpperCase()) {
-        case '.jpg'.toUpperCase():
+        case '.JPG':
             contentType = 'image/jpg';
             break;
-        case '.css'.toUpperCase():
+        case '.CSS':
             contentType = 'text/css';
             break;
-		case '.js'.toUpperCase():
+		case '.JS':
 			contentType = 'text/javascript';
 			break;
-		case '.png'.toUpperCase():
+		case '.PNG':
 			contentType = 'image/png';
+			break;
+		case '.GIF':
+			contentType = 'image/gif';
 			break;
     }
      
 	//verifica si la ruta existe 
-    path.exists(filePath, function(exists) {
-     
+    path.exists(filePath, function(exists) {     
         if (exists) {
 			//si existe lo envia por el 200 si no, por el 500 anunciando error
             fs.readFile(filePath, function(error, content) {
